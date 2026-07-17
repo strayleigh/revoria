@@ -9,25 +9,34 @@
 
     <div class="row g-4 mb-4">
         <div class="col-lg-4">
-            <div class="summary-card">
-                <div class="icon green"><i class="bi bi-arrow-down-circle"></i></div>
-                <h5>Total Pemasukan</h5>
-                <h2>Rp{{ number_format($pemasukan, 0, ',', '.') }}</h2>
-            </div>
+            <a href="{{ route('keuangan.index', array_merge(request()->except(['page']), ['jenis' => 'pemasukan'])) }}" class="text-decoration-none text-dark d-block">
+                <div class="summary-card h-100 {{ request('jenis') == 'pemasukan' ? 'border border-success border-3 shadow-sm bg-success-subtle bg-opacity-10' : '' }}">
+                    <div class="icon green"><i class="bi bi-arrow-down-circle"></i></div>
+                    <h5>Total Pemasukan</h5>
+                    <h2 class="text-success">Rp{{ number_format($pemasukan, 0, ',', '.') }}</h2>
+                    <small class="text-muted">Klik untuk memfilter pemasukan</small>
+                </div>
+            </a>
         </div>
         <div class="col-lg-4">
-            <div class="summary-card">
-                <div class="icon" style="background:#c62828;"><i class="bi bi-arrow-up-circle"></i></div>
-                <h5>Total Pengeluaran</h5>
-                <h2>Rp{{ number_format($pengeluaran, 0, ',', '.') }}</h2>
-            </div>
+            <a href="{{ route('keuangan.index', array_merge(request()->except(['page']), ['jenis' => 'pengeluaran'])) }}" class="text-decoration-none text-dark d-block">
+                <div class="summary-card h-100 {{ request('jenis') == 'pengeluaran' ? 'border border-danger border-3 shadow-sm bg-danger-subtle bg-opacity-10' : '' }}">
+                    <div class="icon" style="background:#c62828;"><i class="bi bi-arrow-up-circle"></i></div>
+                    <h5>Total Pengeluaran</h5>
+                    <h2 class="text-danger">Rp{{ number_format($pengeluaran, 0, ',', '.') }}</h2>
+                    <small class="text-muted">Klik untuk memfilter pengeluaran</small>
+                </div>
+            </a>
         </div>
         <div class="col-lg-4">
-            <div class="summary-card">
-                <div class="icon orange"><i class="bi bi-wallet2"></i></div>
-                <h5>Saldo Kas</h5>
-                <h2>Rp{{ number_format($saldo, 0, ',', '.') }}</h2>
-            </div>
+            <a href="{{ route('keuangan.index', array_merge(request()->except(['page']), ['jenis' => ''])) }}" class="text-decoration-none text-dark d-block">
+                <div class="summary-card h-100 {{ !request('jenis') ? 'border border-warning border-3 shadow-sm bg-warning-subtle bg-opacity-10' : '' }}">
+                    <div class="icon orange"><i class="bi bi-wallet2"></i></div>
+                    <h5>Saldo Kas</h5>
+                    <h2>Rp{{ number_format($saldo, 0, ',', '.') }}</h2>
+                    <small class="text-muted">Klik untuk melihat semua</small>
+                </div>
+            </a>
         </div>
     </div>
 
@@ -42,7 +51,7 @@
                         </div>
                     </div>
                     <div class="col-lg-auto">
-                        <select name="jenis" class="form-select">
+                        <select name="jenis" class="form-select" onchange="this.form.submit()">
                             <option value="">Semua Jenis</option>
                             <option value="pemasukan"   {{ request('jenis') == 'pemasukan'   ? 'selected' : '' }}>Pemasukan</option>
                             <option value="pengeluaran" {{ request('jenis') == 'pengeluaran' ? 'selected' : '' }}>Pengeluaran</option>

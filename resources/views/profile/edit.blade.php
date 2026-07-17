@@ -1,12 +1,12 @@
-<x-sidebar title="Profil">
+<x-sidebar title="Pengaturan">
 
-    <h2 class="mb-4 fw-bold">Profil</h2>
+    <h2 class="mb-4 fw-bold">Pengaturan</h2>
 
     <div class="row g-4">
 
         <!-- Update Info -->
-        <div class="col-lg-6">
-            <div class="dashboard-card">
+        <div class="col-lg-6 d-flex align-items-stretch">
+            <div class="profile-card w-100">
                 <h5 class="fw-bold mb-4">Informasi Akun</h5>
                 <form method="POST" action="{{ route('profile.update') }}">
                     @csrf @method('patch')
@@ -31,8 +31,8 @@
         </div>
 
         <!-- Update Password -->
-        <div class="col-lg-6">
-            <div class="dashboard-card">
+        <div class="col-lg-6 d-flex align-items-stretch">
+            <div class="profile-card w-100">
                 <h5 class="fw-bold mb-4">Ubah Password</h5>
                 <form method="POST" action="{{ route('password.update') }}">
                     @csrf @method('put')
@@ -64,44 +64,59 @@
             </div>
         </div>
 
-        @if(!in_array(auth()->user()->role, ['pengurus']))
+        @if(!in_array(auth()->user()->role, ['pengurus']) || auth()->user()->anggota_id)
         <!-- Hubungkan ke Data Anggota -->
-        <div class="col-lg-6">
-            <div class="dashboard-card">
+        <div class="col-lg-6 d-flex align-items-stretch">
+            <div class="profile-card w-100">
                 <h5 class="fw-bold mb-1">Data Anggota</h5>
                 <p class="text-muted small mb-3">Hubungkan akun ini ke data anggota agar absensi tercatat atas namamu.</p>
-                <form method="POST" action="{{ route('profile.link-anggota') }}">
-                    @csrf @method('patch')
-                    @if(session('status') === 'anggota-linked')
-                        <div class="alert alert-success rounded-3 py-2">Data anggota berhasil dihubungkan.</div>
-                    @endif
-                    <div class="mb-3">
-                        <label class="form-label">Pilih Nama Anggota</label>
-                        <select name="anggota_id" class="form-select">
-                            <option value="">-- Tidak dihubungkan --</option>
-                            @foreach($anggotas as $a)
-                                <option value="{{ $a->id_anggota }}" {{ auth()->user()->anggota_id == $a->id_anggota ? 'selected' : '' }}>
-                                    {{ $a->nama }} {{ $a->jabatan ? '('.$a->jabatan.')' : '' }}
-                                </option>
-                            @endforeach
-                        </select>
+                
+                @if(auth()->user()->anggota_id)
+                    <div class="alert alert-info rounded-3 py-2 mb-3">
+                        <i class="bi bi-link-45deg me-1"></i> Akun Anda sudah terhubung dengan data anggota.
                     </div>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </form>
+                    <div class="mb-3">
+                        <label class="form-label">Nama Anggota Terhubung</label>
+                        <input type="text" class="form-control" value="{{ auth()->user()->anggota?->nama ?? '-' }}" disabled>
+                    </div>
+                @else
+                    <form method="POST" action="{{ route('profile.link-anggota') }}">
+                        @csrf @method('patch')
+                        @if(session('status') === 'anggota-linked')
+                            <div class="alert alert-success rounded-3 py-2">Data anggota berhasil dihubungkan.</div>
+                        @endif
+                        <div class="mb-3">
+                            <label class="form-label">Pilih Nama Anggota</label>
+                            <select name="anggota_id" class="form-select">
+                                <option value="">-- Tidak dihubungkan --</option>
+                                @foreach($anggotas as $a)
+                                    <option value="{{ $a->id_anggota }}" {{ auth()->user()->anggota_id == $a->id_anggota ? 'selected' : '' }}>
+                                        {{ $a->nama }} {{ $a->jabatan ? '('.$a->jabatan.')' : '' }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
+                @endif
             </div>
         </div>
+        @else
+        <!-- Placeholder agar Hapus Akun tetap di sebelah kanan -->
+        <div class="col-lg-6 d-none d-lg-block"></div>
         @endif
 
         <!-- Hapus Akun -->
-        <div class="col-lg-6">
-            <div class="dashboard-card border border-danger">
+        <div class="col-lg-6 d-flex align-items-stretch">
+            <div class="profile-card border border-danger w-100">
                 <h5 class="fw-bold text-danger mb-2">Hapus Akun</h5>
-                <p class="text-muted small">Setelah akun dihapus, semua data akan hilang permanen.</p>
-                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalHapusAkun">
+                <p class="text-muted small mb-3">Setelah akun dihapus, semua data akan hilang permanen.</p>
+                <button class="btn btn-danger mt-auto" data-bs-toggle="modal" data-bs-target="#modalHapusAkun">
                     Hapus Akun
                 </button>
             </div>
         </div>
+
 
     </div>
 

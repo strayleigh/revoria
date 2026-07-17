@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <div class="col-lg-auto">
-                        <select name="jabatan" class="form-select">
+                        <select name="jabatan" class="form-select" onchange="this.form.submit()">
                             <option value="">Semua Divisi</option>
                             <option value="Ketua"        {{ request('jabatan') == 'Ketua'        ? 'selected' : '' }}>Ketua</option>
                             <option value="Wakil Ketua"  {{ request('jabatan') == 'Wakil Ketua'  ? 'selected' : '' }}>Wakil Ketua</option>
@@ -36,10 +36,10 @@
                         </select>
                     </div>
                     <div class="col-lg-auto">
-                        <select name="status" class="form-select">
+                        <select name="status" class="form-select" onchange="this.form.submit()">
                             <option value="">Semua Status</option>
-                            <option value="aktif"       {{ request('status') == 'aktif'        ? 'selected' : '' }}>Aktif</option>
-                            <option value="tidak aktif" {{ request('status') == 'tidak aktif'  ? 'selected' : '' }}>Tidak Aktif</option>
+                            <option value="aktif"        {{ request('status') == 'aktif'       ? 'selected' : '' }}>Aktif</option>
+                            <option value="tidak aktif"  {{ request('status') == 'tidak aktif' ? 'selected' : '' }}>Tidak Aktif</option>
                         </select>
                     </div>
                     <div class="col-lg-auto d-flex gap-2">
@@ -57,6 +57,31 @@
             </form>
         </div>
     </div>
+
+    {{-- Indikator filter aktif --}}
+    @if(request('search') || request('jabatan') || request('status'))
+        <div class="mb-3 d-flex align-items-center gap-2 flex-wrap">
+            <small class="text-muted">Filter aktif:</small>
+            @if(request('search'))
+                <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                    Cari: "{{ request('search') }}"
+                </span>
+            @endif
+            @if(request('jabatan'))
+                <span class="badge bg-info-subtle text-info border border-info-subtle">
+                    Divisi: {{ request('jabatan') }}
+                </span>
+            @endif
+            @if(request('status'))
+                <span class="badge bg-success-subtle text-success border border-success-subtle">
+                    Status: {{ ucfirst(request('status')) }}
+                </span>
+            @endif
+            <a href="{{ route('members.index') }}" class="badge bg-danger-subtle text-danger border border-danger-subtle text-decoration-none">
+                <i class="bi bi-x"></i> Reset
+            </a>
+        </div>
+    @endif
 
     <!-- ================= TABEL ================= -->
     <div class="card border-0 shadow rounded-4 overflow-hidden">

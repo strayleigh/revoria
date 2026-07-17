@@ -8,7 +8,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
 <body>
@@ -60,17 +60,30 @@
                         </a>
                     </li>
                     @endif
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}" href="{{ route('profile.edit') }}">
-                            <i class="bi bi-person"></i> Profil
-                        </a>
-                    </li>
                 </ul>
                 <div class="logout">
+                    <!-- Profile Card -->
+                    <div class="card bg-white bg-opacity-10 border-0 rounded-4 mb-3 p-3 text-white">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px; background: rgba(255,255,255,0.2);">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="overflow-hidden">
+                                <h6 class="mb-0 fw-semibold text-truncate" style="font-size: 14px;">{{ auth()->user()->name }}</h6>
+                                <small class="text-white-50 text-truncate d-block" style="font-size: 11px;">{{ auth()->user()->email }}</small>
+                            </div>
+                        </div>
+                        <a href="{{ route('profile.edit') }}" class="btn btn-sm btn-light w-100 mt-3 text-start d-flex align-items-center justify-content-between rounded-3 py-2 px-3 text-decoration-none" style="background: rgba(255, 255, 255, 0.15); border: 0; color: white; font-size: 12px;">
+                            <span><i class="bi bi-gear me-2"></i> Pengaturan</span>
+                            <i class="bi bi-chevron-right small opacity-50"></i>
+                        </a>
+                    </div>
+
+                    <!-- Logout Button -->
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="btn btn-danger w-100">
-                            <i class="bi bi-box-arrow-right"></i> Keluar
+                        <button type="submit" class="btn text-start w-100 text-decoration-none d-flex align-items-center py-2 px-3 rounded-3" style="background: rgba(220, 53, 69, 0.15); border: 1px solid rgba(220, 53, 69, 0.25); color: #f87171; font-size: 14px;">
+                            <i class="bi bi-box-arrow-right me-2"></i> Keluar
                         </button>
                     </form>
                 </div>

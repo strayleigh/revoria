@@ -59,7 +59,7 @@
                                 ? now()->startOfDay()->diffInDays(\Carbon\Carbon::parse($keg->tanggal)->startOfDay(), false)
                                 : null;
                         @endphp
-                        <li class="list-group-item d-flex justify-content-between align-items-start py-3">
+                        <li class="list-group-item activity-item d-flex justify-content-between align-items-start py-3 mb-2">
                             <div>
                                 <div class="fw-semibold mb-1">{{ $keg->nama_kegiatan }}</div>
                                 <small class="text-muted">
@@ -67,8 +67,8 @@
                                     {{ $keg->tanggal?->format('d M Y') ?? '-' }}
                                 </small>
                             </div>
-                            <div class="text-end d-flex flex-column gap-1 ms-3 flex-shrink-0">
-                                <span class="badge {{ $badgeStatus }}">{{ ucfirst($keg->status) }}</span>
+                            <div class="text-end d-flex flex-column gap-2 ms-3 flex-shrink-0">
+                                <span class="badge {{ $badgeStatus }} px-3 py-2 fw-semibold" style="font-size: 13px; border-radius: 8px;">{{ ucfirst($keg->status) }}</span>
                                 @if($diffDays !== null)
                                     @if($diffDays == 0)
                                         <small class="text-success fw-semibold">Hari ini</small>
@@ -119,7 +119,7 @@
                                 ? now()->startOfDay()->diffInDays(\Carbon\Carbon::parse($keg->tanggal)->startOfDay(), false)
                                 : null;
                         @endphp
-                        <li class="list-group-item d-flex justify-content-between align-items-start py-3">
+                        <li class="list-group-item activity-item d-flex justify-content-between align-items-start py-3 mb-2">
                             <div>
                                 <div class="fw-semibold mb-1">{{ $keg->nama_kegiatan }}</div>
                                 <small class="text-muted">
@@ -127,8 +127,8 @@
                                     {{ $keg->tanggal?->format('d M Y') ?? '-' }}
                                 </small>
                             </div>
-                            <div class="text-end d-flex flex-column gap-1 ms-3 flex-shrink-0">
-                                <span class="badge {{ $badgeStatus }}">{{ ucfirst($keg->status) }}</span>
+                            <div class="text-end d-flex flex-column gap-2 ms-3 flex-shrink-0">
+                                <span class="badge {{ $badgeStatus }} px-3 py-2 fw-semibold" style="font-size: 13px; border-radius: 8px;">{{ ucfirst($keg->status) }}</span>
                                 @if($diffDays !== null)
                                     @if($diffDays == 0)
                                         <small class="text-success fw-semibold">Hari ini</small>
@@ -149,19 +149,31 @@
         <div class="col-lg-4 d-flex">
             <div class="dashboard-card w-100 d-flex flex-column justify-content-center">
                 <h5 class="mb-3">Aksi Cepat</h5>
-                <div class="d-grid gap-2">
-                    <a href="{{ route('kegiatan.index') }}" class="btn btn-outline-primary btn-sm">
-                        <i class="bi bi-plus-circle me-1"></i> Tambah Kegiatan
-                    </a>
-                    <a href="{{ route('absensi.index') }}" class="btn btn-outline-success btn-sm">
-                        <i class="bi bi-check2-square me-1"></i> Input Absensi
-                    </a>
-                    <a href="{{ route('dokumen.index') }}" class="btn btn-outline-warning btn-sm">
-                        <i class="bi bi-folder me-1"></i> Lihat Dokumen
-                    </a>
-                    <a href="{{ route('keuangan.index') }}" class="btn btn-outline-danger btn-sm">
-                        <i class="bi bi-wallet2 me-1"></i> Catat Keuangan
-                    </a>
+                <div class="row g-2">
+                    <div class="col-6">
+                        <a href="{{ route('kegiatan.index') }}" class="btn btn-outline-primary btn-sm w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3">
+                            <i class="bi bi-plus-circle mb-2 fs-5"></i>
+                            <span>Kegiatan</span>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="{{ route('absensi.index') }}" class="btn btn-outline-success btn-sm w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3">
+                            <i class="bi bi-check2-square mb-2 fs-5"></i>
+                            <span>Absensi</span>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="{{ route('dokumen.index') }}" class="btn btn-outline-warning btn-sm w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3">
+                            <i class="bi bi-folder mb-2 fs-5"></i>
+                            <span>Dokumen</span>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="{{ route('keuangan.index') }}" class="btn btn-outline-danger btn-sm w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3">
+                            <i class="bi bi-wallet2 mb-2 fs-5"></i>
+                            <span>Keuangan</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

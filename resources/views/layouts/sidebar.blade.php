@@ -58,7 +58,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}" href="{{ route('profile.edit') }}">
-                            <i class="bi bi-person"></i> Profil
+                            <i class="bi bi-gear"></i> Pengaturan
                         </a>
                     </li>
                 </ul>
