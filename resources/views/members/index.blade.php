@@ -1,3 +1,7 @@
+@php
+    $currentUserJabatan = strtolower(auth()->user()->anggota?->jabatan ?? '');
+    $canManage = in_array($currentUserJabatan, ['ketua', 'wakil ketua', 'sekretaris'], true) || auth()->user()->name === 'admin';
+@endphp
 <x-sidebar title="Anggota">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -49,9 +53,14 @@
                         <a href="{{ route('members.index') }}" class="btn btn-outline-secondary px-3">
                             <i class="bi bi-x-lg"></i>
                         </a>
-                        <a href="{{ route('members.create') }}" class="btn btn-primary px-4">
-                            <i class="bi bi-plus-circle"></i> Tambah Anggota
-                        </a>
+                        @if($canManage)
+                            <a href="{{ route('divisi.index') }}" class="btn btn-outline-primary px-3">
+                                <i class="bi bi-folder"></i> Kelola Divisi
+                            </a>
+                            <a href="{{ route('members.create') }}" class="btn btn-primary px-4">
+                                <i class="bi bi-plus-circle"></i> Tambah Anggota
+                            </a>
+                        @endif
                     </div>
                 </div>
             </form>
@@ -92,6 +101,7 @@
                         <th>No</th>
                         <th>Foto</th>
                         <th>Nama</th>
+                        <th>Jabatan</th>
                         <th>Divisi</th>
                         <th>No. Hp</th>
                         <th>Status</th>
@@ -114,7 +124,8 @@
                                 @endif
                             </td>
                             <td class="fw-semibold">{{ $anggota->nama }}</td>
-                            <td>{{ $anggota->jabatan ?: '-' }}</td>
+                            <td>{{ $anggota->jabatan ?: 'Anggota' }}</td>
+                            <td>{{ $anggota->divisi?->nama_divisi ?? '-' }}</td>
                             <td>{{ $anggota->no_hp ?: '-' }}</td>
                             <td>
                                 <span class="badge {{ $anggota->status_anggota === 'aktif' ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary' }}">
@@ -139,18 +150,22 @@
                                     data-foto="{{ $anggota->foto ? asset('storage/'.$anggota->foto) : '' }}">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <!-- Edit -->
-                                <a href="{{ route('members.edit', $anggota) }}" class="btn btn-outline-warning btn-sm">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <!-- Hapus -->
-                                <button class="btn btn-outline-danger btn-sm"
-                                    data-bs-toggle="modal" data-bs-target="#hapusModal"
-                                    onclick="bukaHapus(this)"
-                                    data-id="{{ $anggota->id }}"
-                                    data-nama="{{ $anggota->nama }}">
-                                    <i class="bi bi-trash"></i>
-                                </button>
+                                @if($canManage)
+                                    <!-- Edit -->
+                                    <a href="{{ route('members.edit', $anggota) }}" class="btn btn-outline-warning btn-sm">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                     <!-- Hapus -->
+                                    @if(auth()->user()->anggota_id !== $anggota->id_anggota)
+                                        <button class="btn btn-outline-danger btn-sm"
+                                            data-bs-toggle="modal" data-bs-target="#hapusModal"
+                                            onclick="bukaHapus(this)"
+                                            data-id="{{ $anggota->id_anggota }}"
+                                            data-nama="{{ $anggota->nama }}">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    @endif
+                                @endif
                             </td>
                         </tr>
                     @empty

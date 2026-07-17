@@ -87,12 +87,12 @@
             @csrf
 
             <div class="mb-3">
-                <label class="form-label fw-semibold" id="labelName">Username</label>
+                <label class="form-label fw-semibold" id="labelName">Nama Lengkap</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="bi bi-person"></i></span>
                     <input type="text" name="name" id="inputName"
                            class="form-control @error('name') is-invalid @enderror"
-                           value="{{ old('name') }}" placeholder="Username" required autofocus>
+                           value="{{ old('name') }}" placeholder="Nama Lengkap" required autofocus>
                 </div>
                 @error('name')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
             </div>
@@ -148,21 +148,5 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const selectRole  = document.getElementById('selectRole');
-        const labelName   = document.getElementById('labelName');
-        const inputName   = document.getElementById('inputName');
-
-        function updateNameField() {
-            const isPembina = selectRole.value === 'pembina';
-            labelName.textContent = isPembina ? 'Nama Lengkap' : 'Username';
-            inputName.placeholder = isPembina ? 'Nama lengkap' : 'Username';
-        }
-
-        selectRole.addEventListener('change', updateNameField);
-
-        // Jalankan saat load (untuk handle old() value saat validasi gagal)
-        updateNameField();
-    </script>
 </body>
 </html>

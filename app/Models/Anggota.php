@@ -20,7 +20,7 @@ class Anggota extends Model
 
     protected $fillable = [
         'nama', 'nik', 'alamat', 'no_hp',
-        'tanggal_bergabung', 'status_anggota', 'jabatan',
+        'tanggal_bergabung', 'status_anggota', 'jabatan', 'divisi_id',
     ];
 
     protected $casts = ['tanggal_bergabung' => 'date'];
@@ -33,5 +33,10 @@ class Anggota extends Model
     public function user()
     {
         return $this->hasOne(\App\Models\User::class, 'anggota_id', 'id_anggota');
+    }
+
+    public function divisi()
+    {
+        return $this->belongsTo(Divisi::class, 'divisi_id', 'id_divisi');
     }
 }

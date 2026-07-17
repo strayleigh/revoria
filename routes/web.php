@@ -42,7 +42,9 @@ Route::middleware('auth')->group(function () {
 
 // Hanya pengurus
 Route::middleware(['auth', 'role:pengurus'])->group(function () {
+    Route::patch('/members/{member}/assign', [MemberController::class, 'assignUser'])->name('members.assign');
     Route::resource('members', MemberController::class);
+    Route::resource('divisi', DivisiController::class);
     Route::resource('kegiatan', KegiatanController::class)->except(['index', 'show']);
     Route::resource('keuangan', KeuanganController::class)->parameters(['keuangan' => 'keuangan'])->except('show');
     Route::get('/reports', [LaporanController::class, 'index'])->name('reports.index');

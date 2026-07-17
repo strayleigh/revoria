@@ -118,8 +118,11 @@
                 <label class="form-label fw-semibold">Password</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                    <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
+                    <input type="password" name="password" id="passwordInput" class="form-control @error('password') is-invalid @enderror" style="border-radius: 0; border-right: none;"
                         placeholder="••••••••" required>
+                    <button type="button" class="input-group-text px-3" id="togglePasswordBtn" style="border-radius: 0 12px 12px 0; border: 1.5px solid #e0e0e0; border-left: none; cursor: pointer; background: #f5f7fb;">
+                        <i class="bi bi-eye text-muted" id="togglePasswordIcon"></i>
+                    </button>
                 </div>
                 @error('password')
                     <div class="text-danger small mt-1">{{ $message }}</div>
@@ -151,5 +154,24 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const passwordInput = document.getElementById('passwordInput');
+        const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+        const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+
+        togglePasswordBtn.addEventListener('click', function() {
+            const isPassword = passwordInput.getAttribute('type') === 'password';
+            passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+            
+            // Switch icons
+            if (isPassword) {
+                togglePasswordIcon.classList.remove('bi-eye');
+                togglePasswordIcon.classList.add('bi-eye-slash');
+            } else {
+                togglePasswordIcon.classList.remove('bi-eye-slash');
+                togglePasswordIcon.classList.add('bi-eye');
+            }
+        });
+    </script>
 </body>
 </html>

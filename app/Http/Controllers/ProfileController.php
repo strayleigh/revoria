@@ -49,13 +49,28 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $data = $request->validated();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // Hanya admin yang dapat mengubah namanya
+        if ($user->name !== 'admin') {
+            unset($data['name']);
         }
 
-        $request->user()->save();
+        $user->fill($data);
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+
+        $user->save();
+
+        // Sinkronisasi no_hp ke data Anggota jika terhubung
+        if ($user->anggota_id) {
+            $user->anggota->update([
+                'no_hp' => $request->no_hp
+            ]);
+        }
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
@@ -70,6 +85,13 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
+
+        // Set status anggota menjadi 'tidak aktif' jika terhubung
+        if ($user->anggota_id) {
+            $user->anggota->update([
+                'status_anggota' => 'tidak aktif'
+            ]);
+        }
 
         Auth::logout();
 

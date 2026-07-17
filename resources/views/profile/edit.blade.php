@@ -16,14 +16,24 @@
                     <div class="mb-3">
                         <label class="form-label">Nama</label>
                         <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                            value="{{ old('name', auth()->user()->name) }}" required>
+                            value="{{ old('name', auth()->user()->name) }}" required @disabled(auth()->user()->name !== 'admin')>
                         @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        @if(auth()->user()->name !== 'admin')
+                            <input type="hidden" name="name" value="{{ auth()->user()->name }}">
+                            <small class="text-muted mt-1 d-block"><i class="bi bi-info-circle"></i> Nama lengkap hanya dapat diubah oleh Admin.</small>
+                        @endif
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email</label>
                         <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
                             value="{{ old('email', auth()->user()->email) }}" required>
                         @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nomor Telepon</label>
+                        <input type="text" name="no_hp" class="form-control @error('no_hp') is-invalid @enderror"
+                            value="{{ old('no_hp', auth()->user()->no_hp) }}" placeholder="Contoh: 08123456789">
+                        @error('no_hp')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>
@@ -64,47 +74,30 @@
             </div>
         </div>
 
-        @if(!in_array(auth()->user()->role, ['pengurus']) || auth()->user()->anggota_id)
-        <!-- Hubungkan ke Data Anggota -->
+        <!-- Mode Tampilan (Theme Mode) -->
         <div class="col-lg-6 d-flex align-items-stretch">
-            <div class="profile-card w-100">
-                <h5 class="fw-bold mb-1">Data Anggota</h5>
-                <p class="text-muted small mb-3">Hubungkan akun ini ke data anggota agar absensi tercatat atas namamu.</p>
-                
-                @if(auth()->user()->anggota_id)
-                    <div class="alert alert-info rounded-3 py-2 mb-3">
-                        <i class="bi bi-link-45deg me-1"></i> Akun Anda sudah terhubung dengan data anggota.
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Nama Anggota Terhubung</label>
-                        <input type="text" class="form-control" value="{{ auth()->user()->anggota?->nama ?? '-' }}" disabled>
-                    </div>
-                @else
-                    <form method="POST" action="{{ route('profile.link-anggota') }}">
-                        @csrf @method('patch')
-                        @if(session('status') === 'anggota-linked')
-                            <div class="alert alert-success rounded-3 py-2">Data anggota berhasil dihubungkan.</div>
-                        @endif
-                        <div class="mb-3">
-                            <label class="form-label">Pilih Nama Anggota</label>
-                            <select name="anggota_id" class="form-select">
-                                <option value="">-- Tidak dihubungkan --</option>
-                                @foreach($anggotas as $a)
-                                    <option value="{{ $a->id_anggota }}" {{ auth()->user()->anggota_id == $a->id_anggota ? 'selected' : '' }}>
-                                        {{ $a->nama }} {{ $a->jabatan ? '('.$a->jabatan.')' : '' }}
-                                    </option>
-                                @endforeach
-                            </select>
+            <div class="profile-card w-100 d-flex flex-column justify-content-between">
+                <div>
+                    <h5 class="fw-bold mb-2">Mode Tampilan</h5>
+                    <p class="text-muted small mb-4">Pilih tema tampilan untuk seluruh aplikasi.</p>
+                    
+                    <div class="d-flex align-items-center justify-content-between p-3 rounded-4 border mb-0" style="background: rgba(0,0,0,0.02);">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="theme-icon-container rounded-3 d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; background: rgba(0,0,0,0.05);">
+                                <i class="bi bi-sun-fill fs-5 text-warning" id="themeIcon"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0 fw-semibold" id="themeLabel">Mode Terang</h6>
+                                <small class="text-muted" id="themeSublabel">Tampilan klasik yang bersih dan cerah.</small>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </form>
-                @endif
+                        <div class="form-check form-switch fs-4">
+                            <input class="form-check-input" type="checkbox" role="switch" id="themeSwitch" style="cursor: pointer;">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        @else
-        <!-- Placeholder agar Hapus Akun tetap di sebelah kanan -->
-        <div class="col-lg-6 d-none d-lg-block"></div>
-        @endif
 
         <!-- Hapus Akun -->
         <div class="col-lg-6 d-flex align-items-stretch">
@@ -117,8 +110,50 @@
             </div>
         </div>
 
-
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeSwitch = document.getElementById('themeSwitch');
+            const themeIcon = document.getElementById('themeIcon');
+            const themeLabel = document.getElementById('themeLabel');
+            const themeSublabel = document.getElementById('themeSublabel');
+
+            const applyTheme = (isDark) => {
+                if (isDark) {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                    if (themeSwitch) themeSwitch.checked = true;
+                    if (themeIcon) {
+                        themeIcon.className = 'bi bi-moon-stars-fill fs-5 text-primary';
+                    }
+                    if (themeLabel) themeLabel.textContent = 'Mode Gelap';
+                    if (themeSublabel) themeSublabel.textContent = 'Tampilan gelap yang nyaman untuk mata Anda.';
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                    if (themeSwitch) themeSwitch.checked = false;
+                    if (themeIcon) {
+                        themeIcon.className = 'bi bi-sun-fill fs-5 text-warning';
+                    }
+                    if (themeLabel) themeLabel.textContent = 'Mode Terang';
+                    if (themeSublabel) themeSublabel.textContent = 'Tampilan klasik yang bersih dan cerah.';
+                }
+            };
+
+            // Detect current theme
+            const currentTheme = localStorage.getItem('theme') || 
+                                 (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            
+            applyTheme(currentTheme === 'dark');
+
+            if (themeSwitch) {
+                themeSwitch.addEventListener('change', (e) => {
+                    applyTheme(e.target.checked);
+                });
+            }
+        });
+    </script>
 
     <!-- Modal Hapus Akun -->
     <div class="modal fade" id="modalHapusAkun" tabindex="-1">

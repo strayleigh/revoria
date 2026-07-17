@@ -87,7 +87,8 @@
                             </button>
                             @if(auth()->user()?->isKetua())
                                 <div class="d-flex gap-1">
-                                    <button class="btn btn-warning btn-sm"
+                                    <button class="btn btn-warning btn-sm d-inline-flex align-items-center justify-content-center"
+                                            style="width: 32px; height: 32px; padding: 0 !important;"
                                             data-bs-toggle="modal" data-bs-target="#formKegiatanModal"
                                             onclick="bukaEditKegiatan(this)"
                                             data-id="{{ $kegiatan->kode_kegiatan }}"
@@ -97,14 +98,15 @@
                                             data-deskripsi="{{ $kegiatan->deskripsi }}"
                                             data-status="{{ $kegiatan->status }}"
                                             data-progres="{{ $kegiatan->progres ?? 0 }}">
-                                        <i class="bi bi-pencil"></i>
+                                        <i class="bi bi-pencil" style="margin: 0 !important;"></i>
                                     </button>
-                                    <button class="btn btn-danger btn-sm"
+                                    <button class="btn btn-danger btn-sm d-inline-flex align-items-center justify-content-center"
+                                            style="width: 32px; height: 32px; padding: 0 !important;"
                                             data-bs-toggle="modal" data-bs-target="#hapusKegiatanModal"
                                             onclick="bukaHapusKegiatan(this)"
                                             data-id="{{ $kegiatan->kode_kegiatan }}"
                                             data-nama="{{ $kegiatan->nama_kegiatan }}">
-                                        <i class="bi bi-trash"></i>
+                                        <i class="bi bi-trash" style="margin: 0 !important;"></i>
                                     </button>
                                 </div>
                             @endif

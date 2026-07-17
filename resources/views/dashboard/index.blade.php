@@ -162,18 +162,27 @@
                             <span>Absensi</span>
                         </a>
                     </div>
-                    <div class="col-6">
-                        <a href="{{ route('dokumen.index') }}" class="btn btn-outline-warning btn-sm w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3">
-                            <i class="bi bi-folder mb-2 fs-5"></i>
-                            <span>Dokumen</span>
-                        </a>
-                    </div>
-                    <div class="col-6">
-                        <a href="{{ route('keuangan.index') }}" class="btn btn-outline-danger btn-sm w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3">
-                            <i class="bi bi-wallet2 mb-2 fs-5"></i>
-                            <span>Keuangan</span>
-                        </a>
-                    </div>
+                    @if(auth()->user()->role === 'anggota')
+                        <div class="col-12">
+                            <a href="{{ route('dokumen.index') }}" class="btn btn-outline-warning btn-sm w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3">
+                                <i class="bi bi-folder mb-2 fs-5"></i>
+                                <span>Dokumen</span>
+                            </a>
+                        </div>
+                    @else
+                        <div class="col-6">
+                            <a href="{{ route('dokumen.index') }}" class="btn btn-outline-warning btn-sm w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3">
+                                <i class="bi bi-folder mb-2 fs-5"></i>
+                                <span>Dokumen</span>
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            <a href="{{ route('keuangan.index') }}" class="btn btn-outline-danger btn-sm w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3">
+                                <i class="bi bi-wallet2 mb-2 fs-5"></i>
+                                <span>Keuangan</span>
+                            </a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

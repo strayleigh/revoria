@@ -1,3 +1,8 @@
+@php
+    $currentUserJabatan = strtolower(auth()->user()->anggota?->jabatan ?? '');
+    $isAllowed = in_array($currentUserJabatan, ['ketua', 'wakil ketua', 'sekretaris'], true) || auth()->user()->name === 'admin';
+    $selectedJabatan = old('jabatan', $anggota->jabatan) ?: 'Anggota';
+@endphp
 <x-sidebar title="Edit Anggota">
     <h2 class="mb-4 fw-bold">Edit Anggota</h2>
 
@@ -25,10 +30,25 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Jabatan <span class="text-danger">*</span></label>
-                        <select name="jabatan" class="form-select" required>
+                        <select name="jabatan" class="form-select" required @disabled(!$isAllowed)>
                             <option value="">Pilih Jabatan</option>
                             @foreach(['Ketua','Wakil Ketua','Sekretaris','Bendahara','Anggota'] as $j)
-                                <option value="{{ $j }}" {{ old('jabatan', $anggota->jabatan) == $j ? 'selected' : '' }}>{{ $j }}</option>
+                                <option value="{{ $j }}" {{ $selectedJabatan == $j ? 'selected' : '' }}>{{ $j }}</option>
+                            @endforeach
+                        </select>
+                        @if(!$isAllowed)
+                            <input type="hidden" name="jabatan" value="{{ $selectedJabatan }}">
+                            <small class="text-muted mt-1 d-block"><i class="bi bi-info-circle"></i> Hanya Ketua, Wakil Ketua, Sekretaris, dan Admin yang dapat mengubah jabatan.</small>
+                        @endif
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Divisi</label>
+                        <select name="divisi_id" class="form-select">
+                            <option value="">Tanpa Divisi (Anggota Umum)</option>
+                            @foreach($divisis as $divisi)
+                                <option value="{{ $divisi->id_divisi }}" {{ old('divisi_id', $anggota->divisi_id) == $divisi->id_divisi ? 'selected' : '' }}>
+                                    {{ $divisi->nama_divisi }}
+                                </option>
                             @endforeach
                         </select>
                     </div>

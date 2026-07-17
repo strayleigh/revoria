@@ -33,6 +33,17 @@
                         </select>
                     </div>
                     <div class="col-md-6">
+                        <label class="form-label fw-semibold">Divisi</label>
+                        <select name="divisi_id" class="form-select">
+                            <option value="">Tanpa Divisi (Anggota Umum)</option>
+                            @foreach($divisis as $divisi)
+                                <option value="{{ $divisi->id_divisi }}" {{ old('divisi_id') == $divisi->id_divisi ? 'selected' : '' }}>
+                                    {{ $divisi->nama_divisi }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-6">
                         <label class="form-label fw-semibold">Tanggal Bergabung <span class="text-danger">*</span></label>
                         <input type="date" name="tanggal_bergabung" class="form-control" value="{{ old('tanggal_bergabung') }}" required>
                     </div>
