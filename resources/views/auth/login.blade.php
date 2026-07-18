@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
     <style>
         body {
             min-height: 100vh;
@@ -88,8 +89,8 @@
 <body>
     <div class="login-card">
 
-        <div class="login-logo">
-            <i class="bi bi-people-fill"></i>
+        <div class="text-center mb-4">
+            <img src="{{ asset('logo.png') }}" alt="Revoria Logo" style="width: 100px; height: 100px; object-fit: contain;">
         </div>
 
         <h4 class="fw-bold text-center mb-1">REVORIA</h4>

@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <script>
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -26,7 +27,10 @@
             <button class="btn text-white p-0 border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
                 <i class="bi bi-list fs-2"></i>
             </button>
-            <span class="navbar-brand text-white fw-bold mb-0" style="font-size: 18px; letter-spacing: 1px;">REVORIA</span>
+            <span class="navbar-brand text-white fw-bold mb-0 d-flex align-items-center gap-2" style="font-size: 18px; letter-spacing: 1px;">
+                <img src="{{ asset('logo.png') }}" alt="Logo" width="28" height="28" class="rounded-circle" style="object-fit: cover; background-color: white;">
+                REVORIA
+            </span>
             <!-- Simple Dark Mode Toggle placeholder or spacing -->
             <div style="width: 28px;"></div>
         </div>
@@ -118,7 +122,8 @@
 
             <!-- DESKTOP SIDEBAR -->
             <div class="col-lg-2 sidebar d-none d-lg-block">
-                <div class="logo">
+                <div class="logo d-flex align-items-center gap-2">
+                    <img src="{{ asset('logo.png') }}" alt="Logo" width="30" height="30" class="rounded-circle" style="object-fit: cover; background-color: white;">
                     <h4 class="text-white mb-0" style="letter-spacing: 1px;">REVORIA</h4>
                 </div>
                 <ul class="nav flex-column mt-4">
