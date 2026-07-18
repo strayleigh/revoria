@@ -90,23 +90,49 @@
         </div>
         @if(auth()->user()->role !== 'pembina')
         <div class="col-lg-4 d-flex">
-            <div class="dashboard-card w-100 d-flex flex-column align-items-center justify-content-center text-center gap-3">
-                <div>
-                    <div class="icon green mx-auto mb-3" style="width:56px;height:56px;font-size:26px;">
-                        <i class="bi bi-check-circle"></i>
+            <div class="dashboard-card w-100 d-flex flex-column justify-content-center">
+                <h5 class="mb-3">Aksi Cepat</h5>
+                <div class="row g-2">
+                    <div class="col-6">
+                        <a href="{{ route('kegiatan.index') }}" class="quick-action-btn btn-kegiatan btn-sm w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3">
+                            <i class="bi bi-plus-circle mb-2 fs-5"></i>
+                            <span>Kegiatan</span>
+                        </a>
                     </div>
-                    <h5 class="fw-bold mb-1">Presensi Cepat</h5>
-                    <p class="text-muted small mb-0">Catat kehadiranmu sekarang</p>
+                    <div class="col-6">
+                        <a href="{{ route('absensi.index') }}" class="quick-action-btn btn-absensi btn-sm w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3">
+                            <i class="bi bi-check2-square mb-2 fs-5"></i>
+                            <span>Absensi</span>
+                        </a>
+                    </div>
+                    @if(auth()->user()->role === 'anggota')
+                        <div class="col-12">
+                            <a href="{{ route('dokumen.index') }}" class="quick-action-btn btn-dokumen btn-sm w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3">
+                                <i class="bi bi-folder mb-2 fs-5"></i>
+                                <span>Dokumen</span>
+                            </a>
+                        </div>
+                    @else
+                        <div class="col-6">
+                            <a href="{{ route('dokumen.index') }}" class="quick-action-btn btn-dokumen btn-sm w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3">
+                                <i class="bi bi-folder mb-2 fs-5"></i>
+                                <span>Dokumen</span>
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            <a href="{{ route('keuangan.index') }}" class="quick-action-btn btn-keuangan btn-sm w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3">
+                                <i class="bi bi-wallet2 mb-2 fs-5"></i>
+                                <span>Keuangan</span>
+                            </a>
+                        </div>
+                    @endif
                 </div>
-                <a href="{{ route('absensi.create') }}" class="btn btn-success px-4">
-                    <i class="bi bi-check-circle me-1"></i> Mulai Presensi
-                </a>
             </div>
         </div>
         @endif
     </div>
 
-    <!-- ================= ROW 2: Kegiatan Mendatang + Aksi Cepat ================= -->
+    <!-- ================= ROW 2: Kegiatan Mendatang + Presensi Cepat ================= -->
     <div class="row g-4 mt-1 align-items-stretch">
         <div class="{{ auth()->user()->role === 'pembina' ? 'col-12' : 'col-lg-8' }} d-flex">
             <div class="dashboard-card w-100 d-flex flex-column" style="min-height:0;">
@@ -152,43 +178,17 @@
         </div>
         @if(auth()->user()->role !== 'pembina')
         <div class="col-lg-4 d-flex">
-            <div class="dashboard-card w-100 d-flex flex-column justify-content-center">
-                <h5 class="mb-3">Aksi Cepat</h5>
-                <div class="row g-2">
-                    <div class="col-6">
-                        <a href="{{ route('kegiatan.index') }}" class="quick-action-btn btn-kegiatan btn-sm w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3">
-                            <i class="bi bi-plus-circle mb-2 fs-5"></i>
-                            <span>Kegiatan</span>
-                        </a>
+            <div class="dashboard-card w-100 d-flex flex-column align-items-center justify-content-center text-center gap-3">
+                <div>
+                    <div class="icon green mx-auto mb-3" style="width:56px;height:56px;font-size:26px;">
+                        <i class="bi bi-check-circle"></i>
                     </div>
-                    <div class="col-6">
-                        <a href="{{ route('absensi.index') }}" class="quick-action-btn btn-absensi btn-sm w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3">
-                            <i class="bi bi-check2-square mb-2 fs-5"></i>
-                            <span>Absensi</span>
-                        </a>
-                    </div>
-                    @if(auth()->user()->role === 'anggota')
-                        <div class="col-12">
-                            <a href="{{ route('dokumen.index') }}" class="quick-action-btn btn-dokumen btn-sm w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3">
-                                <i class="bi bi-folder mb-2 fs-5"></i>
-                                <span>Dokumen</span>
-                            </a>
-                        </div>
-                    @else
-                        <div class="col-6">
-                            <a href="{{ route('dokumen.index') }}" class="quick-action-btn btn-dokumen btn-sm w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3">
-                                <i class="bi bi-folder mb-2 fs-5"></i>
-                                <span>Dokumen</span>
-                            </a>
-                        </div>
-                        <div class="col-6">
-                            <a href="{{ route('keuangan.index') }}" class="quick-action-btn btn-keuangan btn-sm w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3">
-                                <i class="bi bi-wallet2 mb-2 fs-5"></i>
-                                <span>Keuangan</span>
-                            </a>
-                        </div>
-                    @endif
+                    <h5 class="fw-bold mb-1">Presensi Cepat</h5>
+                    <p class="text-muted small mb-0">Catat kehadiranmu sekarang</p>
                 </div>
+                <a href="{{ route('absensi.create') }}" class="btn btn-success px-4">
+                    <i class="bi bi-check-circle me-1"></i> Mulai Presensi
+                </a>
             </div>
         </div>
         @endif

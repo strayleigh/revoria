@@ -39,7 +39,7 @@ class LaporanController extends Controller
             $i + 1, 
             $r->nama, 
             $r->alamat ?: '-', 
-            $r->user?->no_hp ?: ($r->no_hp ?: '-'),
+            $r->no_hp ?: '-',
             $r->jabatan, 
             $r->status_anggota, 
             $r->tanggal_bergabung?->format('d/m/Y') ?: '-',

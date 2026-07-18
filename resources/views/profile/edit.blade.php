@@ -32,7 +32,7 @@
                     <div class="mb-3">
                         <label class="form-label">Nomor Telepon</label>
                         <input type="text" name="no_hp" class="form-control @error('no_hp') is-invalid @enderror"
-                            value="{{ old('no_hp', auth()->user()->no_hp) }}" placeholder="Contoh: 08123456789">
+                            value="{{ old('no_hp', auth()->user()->anggota?->no_hp ?? auth()->user()->no_hp) }}" placeholder="Contoh: 08123456789">
                         @error('no_hp')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>

@@ -76,4 +76,9 @@ Route::middleware(['auth', 'role:pengurus,penanggung jawab,anggota'])->group(fun
     Route::match(['put', 'patch'], '/kegiatan/{kegiatan}', [KegiatanController::class, 'update'])->name('kegiatan.update');
 });
 
+Route::middleware('auth')->group(function () {
+    Route::get('/phone-number/prompt', [ProfileController::class, 'promptPhoneNumber'])->name('phone_number.prompt');
+    Route::post('/phone-number/prompt', [ProfileController::class, 'updatePhoneNumber'])->name('phone_number.update');
+});
+
 require __DIR__.'/auth.php';

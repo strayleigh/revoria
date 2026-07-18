@@ -145,7 +145,7 @@
                             <td class="fw-semibold">{{ $anggota->nama }}</td>
                             <td>{{ $anggota->jabatan ?: 'Anggota' }}</td>
                             <td>{{ $anggota->divisi?->nama_divisi ?? '-' }}</td>
-                            <td>{{ $anggota->user->no_hp ?? '-' }}</td>
+                            <td>{{ $anggota->no_hp ?? '-' }}</td>
                             <td>
                                 <span class="badge {{ $anggota->status_anggota === 'aktif' ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary' }}">
                                     {{ ucfirst($anggota->status_anggota) }}
@@ -161,7 +161,7 @@
                                     onclick="bukaDetail(this)"
                                     data-nama="{{ $anggota->nama }}"
                                     data-jabatan="{{ $anggota->jabatan }}"
-                                    data-hp="{{ $anggota->user->no_hp ?? '-' }}"
+                                    data-hp="{{ $anggota->no_hp ?? '-' }}"
                                     data-status="{{ $anggota->status_anggota }}"
                                     data-tanggal="{{ $anggota->tanggal_bergabung ? \Carbon\Carbon::parse($anggota->tanggal_bergabung)->format('d M Y') : '-' }}"
                                     data-alamat="{{ $anggota->alamat }}"

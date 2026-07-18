@@ -65,7 +65,14 @@ class ProfileController extends Controller
 
         $user->save();
 
-
+        if ($request->has('no_hp')) {
+            $anggota = $user->anggota;
+            if ($anggota) {
+                $anggota->update([
+                    'no_hp' => $request->no_hp,
+                ]);
+            }
+        }
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
@@ -96,5 +103,37 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function promptPhoneNumber(Request $request): View
+    {
+        $anggota = $request->user()->anggota;
+        return view('profile.phone-number-prompt', compact('anggota'));
+    }
+
+    public function updatePhoneNumber(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'no_hp' => 'required|string|max:20',
+        ]);
+
+        $user = $request->user();
+        
+        $anggota = $user->anggota;
+        if (!$anggota) {
+            $anggota = Anggota::create([
+                'nama' => $user->name,
+                'status_anggota' => 'aktif',
+                'jabatan' => $user->role === 'pengurus' ? 'Ketua' : ($user->role === 'pembina' ? 'Pembina' : 'Anggota'),
+                'tanggal_bergabung' => now(),
+            ]);
+            $user->update(['anggota_id' => $anggota->id_anggota]);
+        }
+
+        $anggota->update([
+            'no_hp' => $request->no_hp,
+        ]);
+
+        return redirect()->route('dashboard')->with('success', 'Nomor telepon berhasil dimasukkan.');
     }
 }

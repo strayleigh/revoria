@@ -30,6 +30,8 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-        return view('dashboard.index', compact('anggotaCount', 'kegiatanCount', 'absensiToday', 'saldo', 'upcoming', 'todayActivities'));
+        $pembinas = \App\Models\User::where('role', 'pembina')->get();
+
+        return view('dashboard.index', compact('anggotaCount', 'kegiatanCount', 'absensiToday', 'saldo', 'upcoming', 'todayActivities', 'pembinas'));
     }
 }
