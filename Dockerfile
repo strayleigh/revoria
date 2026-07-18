@@ -10,10 +10,13 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg62-turbo-dev \
     libfreetype6-dev \
-    nodejs \
-    npm \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_mysql bcmath zip gd opcache \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js 20 LTS dari NodeSource
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 # Hapus langsung symlink MPM yang konflik, enable prefork + rewrite
