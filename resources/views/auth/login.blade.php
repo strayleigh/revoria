@@ -135,11 +135,6 @@
                     <input class="form-check-input" type="checkbox" name="remember" id="remember">
                     <label class="form-check-label small text-muted" for="remember">Ingat saya</label>
                 </div>
-                @if(Route::has('password.request'))
-                    <a href="{{ route('password.request') }}" class="small text-decoration-none" style="color:#0f2d5c;">
-                        Lupa password?
-                    </a>
-                @endif
             </div>
 
             <button type="submit" class="btn btn-login w-100">
