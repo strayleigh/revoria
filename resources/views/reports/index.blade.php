@@ -1,5 +1,16 @@
 <x-sidebar title="Laporan">
-    <h2 class="mb-4 fw-bold">Laporan</h2>
+    <h2 class="mb-2 fw-bold">Laporan</h2>
+
+    <div class="d-flex align-items-center gap-2 mb-4">
+        <label for="filterTahun" class="fw-semibold mb-0">Periode:</label>
+        <select id="filterTahun" class="form-select" style="width: auto;"
+            onchange="window.location.href='{{ route('reports.index') }}?tahun=' + this.value">
+            <option value="semua" {{ $tahunTerpilih == 'semua' ? 'selected' : '' }}>Semua Tahun</option>
+            @foreach($tahunTersedia as $tahun)
+                <option value="{{ $tahun }}" {{ (string) $tahunTerpilih === (string) $tahun ? 'selected' : '' }}>{{ $tahun }}</option>
+            @endforeach
+        </select>
+    </div>
 
     <div class="row g-4">
         <!-- Laporan Anggota -->
@@ -27,7 +38,7 @@
                         <p class="text-muted small mb-0">Rekap seluruh kegiatan beserta peserta dan status.</p>
                     </div>
                 </div>
-                <a href="{{ route('reports.export', 'kegiatan') }}" class="download-report-btn btn-green btn-sm flex-shrink-0 px-3 py-2">
+                <a href="{{ route('reports.export', ['jenis' => 'kegiatan', 'tahun' => $tahunTerpilih]) }}" class="download-report-btn btn-green btn-sm flex-shrink-0 px-3 py-2">
                     <i class="bi bi-download"></i> Unduh
                 </a>
             </div>
@@ -57,7 +68,7 @@
                         <p class="text-muted small mb-0">Rekap kehadiran anggota per kegiatan.</p>
                     </div>
                 </div>
-                <a href="{{ route('reports.export', 'absensi') }}" class="download-report-btn btn-grey btn-sm flex-shrink-0 px-3 py-2">
+                <a href="{{ route('reports.export', ['jenis' => 'absensi', 'tahun' => $tahunTerpilih]) }}" class="download-report-btn btn-grey btn-sm flex-shrink-0 px-3 py-2">
                     <i class="bi bi-download"></i> Unduh
                 </a>
             </div>
